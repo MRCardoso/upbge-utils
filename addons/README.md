@@ -53,7 +53,9 @@ Addon to export game using BPPlayer and ResourceHacker
     - **Global** copy into `UPBGE-folder/2.79/python/lib/`
     - **Loca** copy into `yourgame/`
 
+
 Addon to test achievements and stats for steam with lib (steamworkPy)
+
 ![](../images/steam-worker.png)
 
 ### Reset all:
