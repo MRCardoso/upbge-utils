@@ -279,7 +279,7 @@ bl_info = {
     "version": (1, 1, 0),
     "blender": (2, 79, 0),
     "location": "Render Properties > Steam Worker",
-    "wiki_url": "https://github.com/MRCardoso/upbge-utils/blob/master/addons/README.md",
+    "wiki_url": "https://github.com/MRCardoso/upbge-utils/wiki/Addon-Steam-Worker",
     "category": "Game Engine"
 }
 

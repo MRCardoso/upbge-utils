@@ -1,5 +1,8 @@
 # UPBGE Utilities
-Utilities to optimize game development flow into UPBGE `0.2.5` game engine
 
-## Topics
-* [Addons](https://github.com/MRCardoso/upbge-utils/blob/master/addons/README.md)
+[wiki](https://github.com/MRCardoso/upbge-utils/wiki)
+
+|**Version**|**Detail**|
+|---|---|
+|**[1.0.1](https://github.com/MRCardoso/upbge-utils/releases/tag/1.0.1)**|Fix bug into addon/release_game.py|
+|**[1.0.0](https://github.com/MRCardoso/upbge-utils/releases/tag/1.0.0)** |Startup project|
