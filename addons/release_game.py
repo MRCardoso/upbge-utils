@@ -3,6 +3,7 @@ import os
 import re
 import shutil
 
+CUSTOM_ADDON_NAME = 'Release Game'
 UPBGE_PATH = os.getcwd()
 
 size_items = [
@@ -13,14 +14,17 @@ size_items = [
 
 def _addLoggedin(value):
     print('[Ok]',value)
+    
+def getOperatorName(action):
+    return str(CUSTOM_ADDON_NAME.replace(" ", "_") + "." + action).lower()
 
 class ReleaseBuildOperator(bpy.types.Operator):
-    bl_idname = "release_game.build"
-    bl_label = "Refresh the python scripts into a blender project."
+    bl_idname = getOperatorName("build")
+    bl_label = "Export game engine files and core, and prepare runtime to export into BPPlayer"
     
     def execute(self, context):
         errors = []
-        print("======================Release Game=================================")
+        print("======================Build Game=================================")
         # validations
         if not context.scene.source_name:
             errors.append("Game name is required")
@@ -61,7 +65,7 @@ class ReleaseBuildOperator(bpy.types.Operator):
         shutil.copyfile(context.scene.bpplayer_example, os.path.join(BUILD_PATH, f"{context.scene.source_name}.exe"))
         _addLoggedin(f"Created {context.scene.source_name}.exe")
         
-        self.report({"INFO"}, "Release Game Completed")
+        self.report({"INFO"}, "Build Game Completed")
 
         os.startfile(context.scene.bpplayer_gui)
         
@@ -72,8 +76,8 @@ class ReleaseBuildOperator(bpy.types.Operator):
         return {"FINISHED"}
 
 class PrepareBuildOperator(bpy.types.Operator):
-    bl_idname = "release_game.prepare"
-    bl_label = "Refresh the python scripts into a blender project."
+    bl_idname = getOperatorName("prepare")
+    bl_label = "Refresh the python scripts into a .blend project, and resize images for predefined sizes"
     
     def execute(self, context):
         GAME_PATH = context.scene.source_path
@@ -116,7 +120,7 @@ class PrepareBuildOperator(bpy.types.Operator):
         return {"FINISHED"}
     
 class CompressBuildOperator(bpy.types.Operator):
-    bl_idname = "release_game.compress"
+    bl_idname = getOperatorName("compress")
     bl_label = "Create zip file for the game released"
     
     def execute(self, context):
@@ -135,8 +139,8 @@ class CompressBuildOperator(bpy.types.Operator):
         return {"FINISHED"}
 
 class ReleaseGamePanel(bpy.types.Panel):
-    bl_label = "Release Game"
-    bl_idname = "PROPERTIES_Release_Game"
+    bl_label = CUSTOM_ADDON_NAME
+    bl_idname = "PROPERTIES_" + str(CUSTOM_ADDON_NAME).replace(" ", "_")
     bl_space_type = 'PROPERTIES'
     bl_region_type = 'WINDOW'
     bl_context = "render"
@@ -163,25 +167,27 @@ class ReleaseGamePanel(bpy.types.Panel):
         
         col.separator()
         row2 = col.row()
-        row2.operator("release_game.prepare", text="Step 1 Prepare", icon="IMPORT")
-        row2.operator("release_game.build", text="Step 2 Release", icon="EXPORT")
+        row2.operator(getOperatorName("prepare"), text="Step 1 Prepare", icon="IMPORT")
+        row2.operator(getOperatorName("build"), text="Step 2 Release", icon="EXPORT")
 
         col.separator()
-        col.operator("release_game.compress", text="Step 3 Generate a zipfile")
+        col.operator(getOperatorName("compress"), text="Step 3 Generate a zipfile")
 
 classes = (
     ReleaseGamePanel,
+    ActivateOperator,
     PrepareBuildOperator,
     ReleaseBuildOperator,
     CompressBuildOperator
 )
 bl_info = {
-    "name": "Mardozux Release Game",
-    "description": "Publish a .blend file as runtime integrated with bpplayer and resource_hacker",
+    "name": "Release Game",
+    "description": "Publishing the .blend as runtime integrating with bpplayer",
     "author": "Marlon Cardoso (Mardozux Studio)",
-    "version": (1, 0, 0),
+    "version": (1, 1, 0),
     "blender": (2, 79, 0),
     "location": "Render Properties > Release Game",
+    "wiki_url": "https://github.com/MRCardoso/upbge-utils/blob/master/addons/README.md",
     "category": "Game Engine"
 }
 
