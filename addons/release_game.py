@@ -103,7 +103,7 @@ class PrepareBuildOperator(bpy.types.Operator):
                     bpy.data.texts[script].write(f.read())
                     _addLoggedin(f"[-] {extraMessage} {script}")
         
-        if context.scene.resize_image:
+        if context.scene.resize_image and scale:
             _addLoggedin("Images")
             for img in bpy.data.images:
                 if re.search("sprite", img.name):
@@ -111,11 +111,11 @@ class PrepareBuildOperator(bpy.types.Operator):
                     continue
                 if img.size[0] == img.size[1] and img.size[0] > scale:
                     imagesResizes += 1
-                    _addLoggedin(f"[-] {img.name}[{img.size[0]} x {img.size[1]}] Resized [{scale} x {scale}]", context)
+                    _addLoggedin(f"[-] {img.name}[{img.size[0]} x {img.size[1]}] Resized [{scale} x {scale}]")
                     img.scale(scale, scale)
                     img.pack(True)
         
-        self.report({"INFO"}, f"{scriptReloads} Scripits reladed, {scriptReloads} Scripits imported, {imagesResizes} images resized")
+        self.report({"INFO"}, f"{scriptReloads} Scripts reloaded, {scriptImports} Scripts imported, {imagesResizes} images resized")
         
         return {"FINISHED"}
     
@@ -183,7 +183,7 @@ bl_info = {
     "name": "Release Game",
     "description": "Publishing the .blend as runtime integrating with bpplayer",
     "author": "Marlon Cardoso (Mardozux Studio)",
-    "version": (1, 1, 0),
+    "version": (1, 1, 1),
     "blender": (2, 79, 0),
     "location": "Render Properties > Release Game",
     "wiki_url": "https://github.com/MRCardoso/upbge-utils/wiki/Addon-Release-Game",
