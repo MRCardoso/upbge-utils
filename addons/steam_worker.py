@@ -115,10 +115,10 @@ class SteamWorkerPanel(bpy.types.Panel):
         row = layout.row()
         col = row.column()
         
-        if scene.app_id:
+        if bpy.types.Scene.app_id[1]['default']:
             header = col.row()
             header.operator(getOperatorName("reinstall"), text="", text_ctxt="reinstall SteamworksPy", icon='CANCEL')
-            header.label(text=f"APP ID: {scene.app_id}")
+            header.label(text=f"APP ID: {bpy.types.Scene.app_id[1]['default']}")
             rowx = col.row()
             rowx.prop(scene, "stat_achievement_too", text="Achievements Too")
             rowx.operator(getOperatorName("stats_reset"), text="Reset Stats")
@@ -170,7 +170,7 @@ class InstallSetsOperator(bpy.types.Operator):
         try:            
             installSteamworkPy(context.scene.install_spy_version, context.scene.install_id)
             installSteamworkSdk(context.scene.install_sdk_version)
-            context.scene.app_id = context.scene.install_id
+            bpy.types.Scene.app_id[1]['default'] = context.scene.install_id
             self.report({"INFO"}, f'Installed SteamworksPy successful')
         except Exception as ex:
             self.report({"ERROR"}, 'Error to install')
@@ -188,7 +188,7 @@ class ReInstallOperator(bpy.types.Operator):
     bl_label = "ReInstall SteamworksPy"
     
     def execute(self, context):
-        context.scene.app_id = ""
+        bpy.types.Scene.app_id[1]['default'] = ""
         return {"FINISHED"}
 
 class RefreshAcievementOperator(bpy.types.Operator):
@@ -304,7 +304,7 @@ def register():
         with open(app_id_file, 'r') as f:
             app_id	= str(int(f.read()))
             install_id = app_id
-    
+
     bpy.types.Scene.app_id = bpy.props.StringProperty(default=app_id)
     bpy.types.Scene.install_spy_version = bpy.props.StringProperty(default='1.6.5')
     bpy.types.Scene.install_sdk_version = bpy.props.StringProperty(default='157')
