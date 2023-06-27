@@ -4,7 +4,6 @@ import re
 import shutil
 
 CUSTOM_ADDON_NAME = 'Release Game'
-UPBGE_PATH = os.getcwd()
 
 size_items = [
     ("254", "254", "254"), 
@@ -25,21 +24,33 @@ class ReleaseBuildOperator(bpy.types.Operator):
     def execute(self, context):
         errors = []
         print("======================Build Game=================================")
+        SOURCE_PATH = bpy.path.abspath(context.scene.source_path)
+        RELEASE_PATH = bpy.path.abspath(context.scene.release_path)
+        UPBGE_PATH = bpy.path.abspath(context.scene.upbge_path)
+        BPEX_FILE = bpy.path.abspath(context.scene.bpplayer_example)
+        BPGUI_FILE = bpy.path.abspath(context.scene.bpplayer_gui)
+        
         # validations
         if not context.scene.source_name:
             errors.append("Game name is required")
-        if not os.path.exists(context.scene.bpplayer_gui):
+        if not os.path.exists(BPGUI_FILE):
             errors.append("BPPlayerGUI.exe not found")
-        if not os.path.exists(context.scene.bpplayer_example):
+        if not os.path.exists(BPEX_FILE):
             errors.append("BPPlayer.exe not found")
         
         if len(errors) > 0:
             self.report({"ERROR"}, ", ".join(errors))
             return {"FINISHED"}
         
-        BUILD_PATH = os.path.join(context.scene.release_path, context.scene.source_name)
+        BUILD_PATH = os.path.join(RELEASE_PATH, context.scene.source_name)
+        
         source_names = ["readme.md", "storage", "steam_appid.txt"]
         app_id_file = os.path.join(UPBGE_PATH, source_names[2])
+        blender_player = os.path.join(UPBGE_PATH, 'blenderplayer.exe')
+
+        if not os.path.exists(blender_player):
+            self.report({"ERROR"}, "blenderplayer not found, check if the 'upbge_path' is valid")
+            return {"FINISHED"}
         
         if os.path.exists(BUILD_PATH):
             shutil.rmtree(BUILD_PATH)
@@ -52,9 +63,9 @@ class ReleaseBuildOperator(bpy.types.Operator):
             shutil.copyfile(app_id_file, os.path.join(BUILD_PATH, source_names[2]))
             _addLoggedin(f"Copyed {source_names[2]}")
 
-        if os.path.exists(context.scene.source_path):
-            readme_file = os.path.join(context.scene.source_path, source_names[0])
-            storage_file = os.path.join(context.scene.source_path, source_names[1])
+        if os.path.exists(SOURCE_PATH):
+            readme_file = os.path.join(SOURCE_PATH, source_names[0])
+            storage_file = os.path.join(SOURCE_PATH, source_names[1])
             if os.path.exists(readme_file):
                 shutil.copyfile(readme_file, os.path.join(BUILD_PATH, source_names[0]))
                 _addLoggedin(f"Copyed {source_names[0]}")
@@ -62,16 +73,17 @@ class ReleaseBuildOperator(bpy.types.Operator):
                 shutil.copytree(storage_file, os.path.join(BUILD_PATH, source_names[1]), ignore=shutil.ignore_patterns("*.db", "*.dat", "*.log"))
                 _addLoggedin(f"Copyed {source_names[1]}")
 
-        shutil.copyfile(context.scene.bpplayer_example, os.path.join(BUILD_PATH, f"{context.scene.source_name}.exe"))
+        shutil.copyfile(BPEX_FILE, os.path.join(BUILD_PATH, f"{context.scene.source_name}.exe"))
         _addLoggedin(f"Created {context.scene.source_name}.exe")
         
         self.report({"INFO"}, "Build Game Completed")
 
-        os.startfile(context.scene.bpplayer_gui)
+        os.startfile(BPGUI_FILE)
         
         if context.scene.rehacker_gui:
-            if os.path.exists(context.scene.rehacker_gui):
-                os.startfile(context.scene.rehacker_gui)
+            RHGUI_FILE = bpy.path.abspath(context.scene.rehacker_gui)
+            if os.path.exists(RHGUI_FILE):
+                os.startfile(RHGUI_FILE)
 
         return {"FINISHED"}
 
@@ -80,9 +92,9 @@ class PrepareBuildOperator(bpy.types.Operator):
     bl_label = "Refresh the python scripts into a .blend project, and resize images for predefined sizes"
     
     def execute(self, context):
-        GAME_PATH = context.scene.source_path
+        SOURCE_PATH = bpy.path.abspath(context.scene.source_path)
         scale = int(context.scene.image_size)
-        files = os.listdir(GAME_PATH)
+        files = os.listdir(SOURCE_PATH)
         scriptReloads = 0
         scriptImports = 0
         imagesResizes = 0
@@ -91,7 +103,7 @@ class PrepareBuildOperator(bpy.types.Operator):
         _addLoggedin("Scripts")
         for script in files:
             if re.search("\.py$", script):
-                with open(GAME_PATH + script, 'r') as f:
+                with open(SOURCE_PATH + script, 'r') as f:
                     extraMessage='Reloaded'
                     if not script in bpy.data.texts:
                         extraMessage='Imported'
@@ -125,9 +137,10 @@ class CompressBuildOperator(bpy.types.Operator):
     
     def execute(self, context):
         print("=======================Compress Game================================")
-        _build_file_data = os.path.join(context.scene.release_path, context.scene.source_name, 'data.block')
+        RELEASE_PATH = bpy.path.abspath(context.scene.release_path)
+        _build_file_data = os.path.join(RELEASE_PATH, context.scene.source_name, 'data.block')
         if os.path.exists(_build_file_data):
-            build_path = os.path.join(context.scene.release_path, context.scene.source_name)
+            build_path = os.path.join(RELEASE_PATH, context.scene.source_name)
             if os.path.exists(f"{build_path}.zip"):
                 os.remove(f"{build_path}.zip")
                 _addLoggedin(f"Removed old {context.scene.source_name}.zip")
@@ -159,6 +172,7 @@ class ReleaseGamePanel(bpy.types.Panel):
             rowimg.prop(scene, "image_size", text="Size")
         
         col.separator()
+        col.prop(scene, "upbge_path", text="Upbge path")
         col.prop(scene, "source_path", text="Source path")
         col.prop(scene, "release_path", text="Release path")
         col.prop(scene, "bpplayer_example", text="BPPlayer example")
@@ -195,6 +209,7 @@ def register():
         bpy.utils.register_class(obj)
         
     bpy.types.Scene.source_name = bpy.props.StringProperty(default="")
+    bpy.types.Scene.upbge_path = bpy.props.StringProperty(default=str(os.getcwd()), subtype='DIR_PATH')
     bpy.types.Scene.source_path = bpy.props.StringProperty(default="", subtype='DIR_PATH')
     bpy.types.Scene.release_path = bpy.props.StringProperty(default="", subtype='DIR_PATH')
     
@@ -212,6 +227,7 @@ def unregister():
     del bpy.types.Scene.bpplayer_example
     del bpy.types.Scene.source_name
     del bpy.types.Scene.source_path
+    del bpy.types.Scene.upbge_path
     del bpy.types.Scene.release_path
     del bpy.types.Scene.resize_image
     del bpy.types.Scene.image_size
