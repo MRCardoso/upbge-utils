@@ -4,6 +4,14 @@ import re
 import shutil
 
 CUSTOM_ADDON_NAME = 'Release Game'
+"""
+check this methods:
+
+bpy.ops.wm.save_as_mainfile()
+bpy.ops.wm.open_mainfile(filepath=fname)
+bpy.ops.file.pack_all()
+
+"""
 
 size_items = [
     ("254", "254", "254"), 
@@ -161,6 +169,7 @@ class ReleaseGamePanel(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout 
         scene = context.scene
+        # filepath = context.blend_data.filepath
         row = layout.row()
         col = row.column()
         
@@ -197,28 +206,39 @@ bl_info = {
     "name": "Release Game",
     "description": "Publishing the .blend as runtime integrating with bpplayer",
     "author": "Marlon Cardoso (Mardozux Studio)",
-    "version": (1, 1, 1),
+    "version": (2, 0, 0),
     "blender": (2, 79, 0),
     "location": "Render Properties > Release Game",
     "wiki_url": "https://github.com/MRCardoso/upbge-utils/wiki/Addon-Release-Game",
     "category": "Game Engine"
 }
 
+def _read_paths():
+    app_id_file = os.path.join(os.getcwd(), 'release_game.txt')
+    default_paths = [str(os.getcwd()), "", "", ""]
+    if os.path.isfile(app_id_file):
+        with open(app_id_file, 'r') as f:
+            default_values = [line.rstrip() for line in f]
+            for i, l in enumerate(default_values):
+                default_paths[i] = str(l)
+    return default_paths
+
 def register():
     for obj in classes:
         bpy.utils.register_class(obj)
         
+    rg_paths = _read_paths()
     bpy.types.Scene.source_name = bpy.props.StringProperty(default="")
-    bpy.types.Scene.upbge_path = bpy.props.StringProperty(default=str(os.getcwd()), subtype='DIR_PATH')
+    bpy.types.Scene.upbge_path = bpy.props.StringProperty(default=rg_paths[0], subtype='DIR_PATH')
     bpy.types.Scene.source_path = bpy.props.StringProperty(default="", subtype='DIR_PATH')
     bpy.types.Scene.release_path = bpy.props.StringProperty(default="", subtype='DIR_PATH')
     
     bpy.types.Scene.resize_image = bpy.props.BoolProperty(default=True)
     bpy.types.Scene.image_size = bpy.props.EnumProperty(items=size_items, default=size_items[1][0], name="Sizes")
     
-    bpy.types.Scene.bpplayer_example = bpy.props.StringProperty(default="", subtype='FILE_PATH')
-    bpy.types.Scene.bpplayer_gui = bpy.props.StringProperty(default="", subtype='FILE_PATH')
-    bpy.types.Scene.rehacker_gui = bpy.props.StringProperty(default="", subtype='FILE_PATH')
+    bpy.types.Scene.bpplayer_example = bpy.props.StringProperty(default=rg_paths[1], subtype='FILE_PATH')
+    bpy.types.Scene.bpplayer_gui = bpy.props.StringProperty(default=rg_paths[2], subtype='FILE_PATH')
+    bpy.types.Scene.rehacker_gui = bpy.props.StringProperty(default=rg_paths[3], subtype='FILE_PATH')
     
 
 def unregister():
