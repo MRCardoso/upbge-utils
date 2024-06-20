@@ -1,0 +1,4 @@
+cicd/add_extra_path.txt
+**/__pycache__/
+cicd/copycat/*
+cicd/palette.png
