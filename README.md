@@ -12,14 +12,19 @@
 |**[1.0.0](https://github.com/MRCardoso/upbge-utils/releases/tag/1.0.0)** |Startup project|
 
 
-## Release Game
+## Addons
+
+### Release Game
 
 ![](images/release-game.png)
 
-## Steamworks
+### Steamworks
 
 ![](images/steam-worker-installed.png)
 
-## Python Scripts
 
-[standalone scripts](cicd/readme.md)
+## Scripts
+
+## Gif Generator
+
+![](images/gif-generator.gif)
