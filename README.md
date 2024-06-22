@@ -19,3 +19,7 @@
 ## Steamworks
 
 ![](images/steam-worker-installed.png)
+
+## Python Scripts
+
+![](cicd/readme.md)
