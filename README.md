@@ -22,4 +22,4 @@
 
 ## Python Scripts
 
-![](cicd/readme.md)
+[standalone scripts](cicd/readme.md)
