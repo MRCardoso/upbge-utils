@@ -25,6 +25,9 @@
 
 ## Scripts
 
-## Gif Generator
+### Gif Generator
 
 ![](images/gif-generator.gif)
+
+### Translate
+![](images/translate.png)
