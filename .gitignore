@@ -5,3 +5,4 @@ cicd/palette.png
 cicd/in_frames/
 cicd/out_frames/*
 cicd/realesrgan-windows/*
+images/*.mp4
