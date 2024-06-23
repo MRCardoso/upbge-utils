@@ -32,13 +32,11 @@
 ## Scripts
 
 <table>
-    <thead>
+    <tbody>
         <tr>
             <td>Gif Generator</td>
             <td>Translate</td>
         </tr>
-    </thead>
-    <tbody>
         <tr>
             <td><img src="images/gif-generator.gif" width="400"/></td>
             <td><img src="images/translate.gif" width="400"/></td>
@@ -49,7 +47,7 @@
         </tr>
         <tr>
             <td><img src="images/image-processor.png" width="400"/></td>
-            <td><img src="images/upload-file.png"/></td>
+            <td><img src="images/upload-file.png" width="400"/></td>
         </tr>
     </tbody>
 </table>
