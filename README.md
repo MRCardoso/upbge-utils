@@ -15,36 +15,37 @@
 
 ## Addons
 <table>
-<thead>
-    <tr>
-        <td>Release Game</td>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td><img src="images/release-game.png" width="100"/></td>
-    </tr>
-</tbody>
+    <thead>
+        <tr>
+            <td>Release Game</td>
+            <td>Steamworks</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><img src="images/release-game.png" width="400"/></td>
+            <td><img src="images/steam-worker-installed.png" width="400"/></td>
+        </tr>
+    </tbody>
 </table>
-### Release Game
-![](images/release-game.png)
-
-### Steamworks
-
-![](images/steam-worker-installed.png)
-
 
 ## Scripts
 
-### Gif Generator
-
-![](images/gif-generator.gif)
-
-### Translate
-![](images/translate.gif)
-
-### Image processor
-![](images/image-processor.png)
-
-### Upload File
-![](images/upload-file.png)
+<table>
+    <thead>
+        <tr>
+            <td>Gif Generator</td>
+            <td>Translate</td>
+            <td>Image processor</td>
+            <td>Upload File</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><img src="images/gif-generator.gif" width="400"/></td>
+            <td><img src="images/translate.gif" width="400"/></td>
+            <td><img src="images/image-processor.png" width="400"/></td>
+            <td><img src="images/upload-file.png" width="400"/></td>
+        </tr>
+    </tbody>
+</table>
