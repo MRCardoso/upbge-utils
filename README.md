@@ -49,7 +49,7 @@
         </tr>
         <tr>
             <td><img src="images/image-processor.png" width="400"/></td>
-            <td><img src="images/upload-file.png" width="400"/></td>
+            <td><img src="images/upload-file.png"/></td>
         </tr>
     </tbody>
 </table>
