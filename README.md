@@ -4,6 +4,7 @@
 
 |**Version**|**Detail**|
 |---|---|
+|**[2.1.0](https://github.com/MRCardoso/upbge-utils/releases/tag/2.1.0)**|Feature added addon/component_worker, create cicd/* python scripts|
 |**[2.0.0](https://github.com/MRCardoso/upbge-utils/releases/tag/2.0.0)**|Feature added addon/release_game auto fill from txt|
 |**[1.1.0](https://github.com/MRCardoso/upbge-utils/releases/tag/1.1.0)**|Feature into addon/release_game add upbge path|
 |**[1.0.3](https://github.com/MRCardoso/upbge-utils/releases/tag/1.0.3)**|Fix bug into addon/steam_worker load after install|
