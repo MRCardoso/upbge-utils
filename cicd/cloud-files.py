@@ -2,7 +2,7 @@ import os
 import boto3
 from botocore.exceptions import NoCredentialsError
 from tqdm import tqdm
-import cicd.mdxutils as mdxutils
+import mdxutils
 
 """
 Thrid Part Libs
