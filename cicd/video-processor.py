@@ -48,33 +48,6 @@ def combine_video_audio(input_path, audio_input_path, output_path):
     ffmpeg.output(input_video, input_audio, output_path, vcodec='copy', acodec='aac', strict='experimental').run()
 
 def upscale_video(input_path, temp_file, ext, index=0):
-    # in_frames = "in_frames"
-    # out_frames = "out_frames"
-    # for fd in [in_frames, out_frames]:
-    #     if os.path.exists(fd):
-    #         shutil.rmtree(fd)
-    #     os.makedirs(fd)
-    # command_frames = [
-    #     "ffmpeg",
-    #     "-i", input_path,
-    #     "-qscale:v", "1",
-    #     "-qmin", "1",
-    #     "-qmax", "1",
-    #     "-vsync", "0",
-    #     r'in_frames\frames_%04d.jpg'
-    # ]
-
-    # subprocess.run(command_frames)
-    
-    # command_superres = [
-    #     "./realesrgan-windows/realesrgan-ncnn-vulkan.exe",
-    #     "-i", in_frames,
-    #     "-o", out_frames, 
-    #     "-n", "realesr-animevideov3", 
-    #     "-s", "2", 
-    #     "-f", "jpg"
-    # ]
-    # subprocess.run(command_superres)
     
     input_path = os.path.abspath(input_path)
     cap = cv2.VideoCapture(input_path)

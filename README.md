@@ -14,9 +14,19 @@
 
 
 ## Addons
-
+<table>
+<thead>
+    <tr>
+        <td>Release Game</td>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td><img src="images/release-game.png" width="100"/></td>
+    </tr>
+</tbody>
+</table>
 ### Release Game
-
 ![](images/release-game.png)
 
 ### Steamworks
@@ -31,7 +41,7 @@
 ![](images/gif-generator.gif)
 
 ### Translate
-![](images/translate.png)
+![](images/translate.gif)
 
 ### Image processor
 ![](images/image-processor.png)
