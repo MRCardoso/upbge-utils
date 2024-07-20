@@ -13,6 +13,15 @@ RESOLUTION_LABEL = (
     'full-HD',
 )
 
+PIXEL_SIZES = [
+    # (16, 16),
+    (32, 32),
+    (48, 48),
+    (64, 64),
+    (128, 128),
+    (256, 256)
+]
+
 
 def is_valid_number(value) -> bool:
     return re.search(r'^\d$', value)
@@ -20,8 +29,14 @@ def is_valid_number(value) -> bool:
 def resolution_valid(index:int) -> bool:
     return index >= 0 and index <= (len(RESOLUTIONS)-1)
 
+def pixel_valid(index:int) -> bool:
+    return index >= 0 and index <= (len(PIXEL_SIZES)-1)
+
 def resolution_available() -> list[str]:
     return [f"{i} - {x[0]}x{x[1]}" for i, x in enumerate(RESOLUTIONS)]
+
+def pixel_available() -> list[str]:
+    return [f"{i} - {x[0]}x{x[1]}" for i, x in enumerate(PIXEL_SIZES)]
 
 def generate_output_name(base_path:str, filename:str, index:int=None, extra:str='', extension=None) -> str:
     ext = extension if extension else filename.split('.')[1]
